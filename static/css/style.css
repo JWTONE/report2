@@ -1,0 +1,9 @@
+img {
+  width: 200px;
+}
+
+background-image {
+  background-image: url("{% static 'articles/market.jpg' %}");
+  background-size: cover; /* 이미지를 요소에 맞게 자동으로 조정합니다 */
+  background-position: center; /* 이미지를 가운데 정렬합니다 */
+}
