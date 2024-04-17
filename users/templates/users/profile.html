@@ -9,7 +9,7 @@
         {% if request.user != member %}
             <form action="{% url 'users:follow' member.pk %}" method="POST">
                 {% csrf_token %}
-                {% if request.user in member.followers.all %}
+                {% if user in member.followers.all %}
                     <input type="submit" value="언팔로우">
                 {% else %}
                     <input type="submit" value="팔로우">

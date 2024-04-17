@@ -25,5 +25,5 @@ def follow(request, user_id):
                 member.followers.remove(request.user)
             else:
                 member.followers.add(request.user)
-        return redirect("users:profile", username=member.username)
+        return redirect("users:profile", member.username)
     return redirect("accounts:login")
