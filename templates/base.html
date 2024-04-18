@@ -3,65 +3,71 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="icon" href="/docs/5.3/assets/img/favicons/favicon.ico">
     <title>MY DJANGO</title>
 
     {% block head %}{% endblock head %}
-</head>
+  </head>
 
-<body>
-    <div class="background-image" id="market"></div>
-    <img class="market" src="{% static 'articles/우리는 삽니다 좋은 장비를.png' %}">
-
-
+  <body>
+    <!-- <div class="background-image" id="market"></div> <img class="market" src="{% static 'articles/우리는 삽니다 좋은 장비를.png' %}"> -->
 
     <header class="p-3 text-bg-white">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-black text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
-                        <use xlink:href="#bootstrap"></use>
-                    </svg>
-                </a>
+      <div class="container">
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+          <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-black text-decoration-none">
+            <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+              <use xlink:href="#bootstrap"></use>
+            </svg>
+          </a>
 
-                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="{%url 'articles:index' %}" class="nav-link px-2 text-secondary">Home</a></li>
-                    <li><a href="{%url 'articles:articles' %}" class="nav-link px-2 text-black">Board</a></li>
-                </ul>
+          <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+            <li>
+              <a href="{%url 'articles:index' %}" class="nav-link px-2 text-secondary">Home</a>
+            </li>
+            <li>
+              <a href="{%url 'articles:articles' %}" class="nav-link px-2 text-black">Board</a>
+            </li>
+          </ul>
 
-                {% if user.is_authenticated %}
-                <div class="text-end">
+          {% if user.is_authenticated %}
+            <div class="text-end">
 
-                        <form action="{% url 'accounts:logout' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="로그아웃"></input>
+              <form action="{% url 'accounts:logout' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="로그아웃"></input>
 
-                        <form action="{% url 'accounts:delete' %}" method="POST">
-                            {% csrf_token %}
-                            <input type="submit" value="회원탈퇴"></input>
+              </form>
 
-                        <button type="button" class="btn btn-white"><a
-                                href="{% url 'users:profile' username=user.username %}">{{ user }}님</a></button>
+              <form action="{% url 'accounts:delete' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="회원탈퇴"></input>
 
-                                <button type="button" class="btn btn-white"><a
-                                href="{% url 'users:profile' username=user.username %}">정보수정하기</a></button>
-                </div>
-                {% else %}
-                <div class="text-end">
-                    <button type="button" class="btn btn-outline-light me-2"><a
-                            href="{% url 'accounts:login' %}">로그인</a></button>
-                    <button type="button" class="btn btn-warning"><a
-                            href="{% url 'accounts:signup' %}">회원가입</a></button>
-                </div>
-                {% endif %}
+              </form>
+
+              <a href="{% url 'users:profile' username=user.username %}" class="btn btn-white">{{ user }}님</a>
+
+              <a href="{% url 'users:profile' username=user.username %}" class="btn btn-white">정보수정하기</a>
+
             </div>
+
+          {% else %}
+            <div class="text-end">
+              <button type="button" class="btn btn-outline-light me-2">
+                <a href="{% url 'accounts:login' %}">로그인</a>
+              </button>
+              <button type="button" class="btn btn-warning">
+                <a href="{% url 'accounts:signup' %}">회원가입</a>
+              </button>
+            </div>
+          {% endif %}
         </div>
+      </div>
     </header>
     <br>
     <br>
@@ -71,54 +77,12 @@
     <br>
     <br>
     <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
-
-    <div class="userform">
-
-
-        {% if request.user.is_authenticated %}
-        <h3>Hello, {{ request.user.username }}</h3>
-
-        </form>
-
-        <a href="{% url 'accounts:update' %}">회원정보수정</a>
-
-
-        </form>
-        {% else %}
-        <a href="{% url 'accounts:login' %}">로그인</a>
-        <a href="{% url 'accounts:signup' %}">회원가입</a>
-        {% endif %}
-
-    </div>
 
     <div class="container">
-        {% block content %}
-        {% endblock content %}
+      {% block content %}{% endblock content %}
     </div>
 
-    </div>
-
+  </div>
 
 </body>
 

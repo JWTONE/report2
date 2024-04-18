@@ -1,13 +1,8 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block content %}
+<h1>INDEX PAGE</h1>
 
-{% block content %}
-  <h1>INDEX PAGE</h1>
-
-  <ul>
-    <li><a href="{% url 'articles:articles' %}">글목록</a></li>
-    <li><a href="{% url 'articles:throw' %}">Throw</a></li>
-    <li><a href="{% url 'users:users' %}">Users</a></li>
-  </ul>
+<ul>
+  <li><a href="{% url 'articles:articles' %}">글목록</a></li>
+</ul>
 
 {% endblock content %}

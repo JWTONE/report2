@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from .models import Article, Comment
-from .forms import ArticleForm, CommentForm
+from .models import Article
+from .forms import ArticleForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_POST
 
@@ -18,13 +18,10 @@ def articles(request):
 
 
 def article_detail(request, pk):
+    print("detail")
     article = get_object_or_404(Article, pk=pk)
-    comment_form = CommentForm()
-    comments = article.comments.all().order_by("-pk")
     context = {
         "article": article,
-        "comment_form": comment_form,
-        "comments": comments,
     }
     return render(request, "articles/article_detail.html", context)
 
@@ -32,6 +29,7 @@ def article_detail(request, pk):
 @login_required
 def create(request):
     if request.method == "POST":
+        print("create_post")
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save(commit=False)
@@ -40,6 +38,7 @@ def create(request):
             return redirect("articles:article_detail", article.pk)
     else:
         form = ArticleForm()
+        print("else")
 
     context = {"form": form}
     return render(request, "articles/create.html", context)
@@ -49,7 +48,7 @@ def create(request):
 @require_http_methods(["GET", "POST"])
 def update(request, pk):
     article = get_object_or_404(Article, pk=pk)
-    if article.author != request.user:
+    if article.author == request.user:
         if request.method == "POST":
             form = ArticleForm(request.POST, instance=article)
             if form.is_valid():
@@ -58,7 +57,7 @@ def update(request, pk):
         else:
             form = ArticleForm(instance=article)
     else:
-        return redirect("articles:articles")
+        form = ArticleForm(instance=article)
 
     context = {
         "form": form,
@@ -78,27 +77,6 @@ def delete(request, pk):
 
 
 @require_POST
-def comment_create(request, pk):
-    article = get_object_or_404(Article, pk=pk)
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.article = article
-        comment.user = request.user
-        comment.save()
-        return redirect("articles:article_detail", article.pk)
-
-
-@require_POST
-def comment_delete(request, pk, comment_pk):
-    if request.user.is_authenticated:
-        comment = get_object_or_404(Comment, pk=comment_pk)
-        if comment.user == request.user:
-            comment.delete()
-    return redirect("articles:article_detail", pk)
-
-
-@require_POST
 def like(request, pk):
     if request.user.is_authenticated:
         article = get_object_or_404(Article, pk=pk)
@@ -108,15 +86,3 @@ def like(request, pk):
             article.like_users.add(request.user)  # 좋아요
         return redirect("articles:articles")
     return redirect("accounts:login")
-
-
-def data_throw(request):
-    return render(request, "articles/data_throw.html")
-
-
-def data_catch(request):
-    data = request.GET.get("message")
-    context = {
-        "data": data,
-    }
-    return render(request, "articles/data_catch.html", context)

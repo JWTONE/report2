@@ -1,15 +1,30 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% load humanize %}
 
 {% block content %}
-<h2>New Article</h2>
+<h2>중고물품 작성하기</h2>
 
 <form action="{% url 'articles:create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">저장</button>
+    <div style="display: flex; flex-direction: column;"> <!-- 요소들을 세로 방향으로 배치하기 위한 flex 컨테이너 -->
+        <br>
+        <label for="id_title">제목:</label>
+        <input type="text" name="title" id="id_title" size="50">
+        <br>
+        <br>
+        <label for="id_content">내용:</label>
+        {{ form.content }}
+        <br>
+        <label for="id_price">가격:</label>
+        {{ form.price }}
+        <br>
+        <label for="id_image">물건 사진 업로드하기:</label>
+        {{ form.image }}
+        <br>
+    </div>
+    <button type="submit" style="display: flex; flex-direction: column;">저장</button>
 </form>
 
-<a href="{% url "articles:articles" %}">목록으로</a>
-
+<a href="{% url 'articles:articles' %}">목록으로</a>
 
 {% endblock content %}

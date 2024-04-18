@@ -1,31 +1,46 @@
-{% extends "base.html" %}
+{% extends "base.html" %} 
+{% load humanize %}
 
 
 {% block content %}
-<h2>Articles</h2>
-
-{% if request.user.is_authenticated %}
-    <a href="{% url 'articles:create' %}">
-        <button>새로운 글작성</button>
-    </a>
-{% else %}
-    <a href="{% url "accounts:login" %}">로그인하고 글 작성하기</a>
-{% endif %}
-
-{% for article in articles %}
-    <a href="{% url "articles:article_detail" article.pk %}">
-        <p>[ {{ article.pk }} ] {{ article.title }}</p>
-    </a>
-
-    <form action="{% url "articles:like" article.pk %}" method="POST">
-        {% csrf_token %}
-        {% if request.user in article.like_users.all %}
-            <input type="submit" value="안좋아요">
-        {% else %}
-            <input type="submit" value="좋아요">
-        {% endif %}
-    </form>
-
-{% endfor %}
+  <h1>중고거래 게시판</h1>
+  <div>
+    {% if request.user.is_authenticated %}
+      <button style="float: right;">
+        <a href="{% url 'articles:create' %}">새로운 글작성</a>
+      </button>
+    {% else %}
+      <a href="{% url 'accounts:login' %}">로그인하고 글 작성하기</a>
+    {% endif %}
+  </div>
+  
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for article in articles %}
+      <div class="col">
+        <div class="card">
+          {% if article.image %}
+            <img src="{{ article.image.url }}" class="card-img-top fixed-size">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'articles:article_detail' article.pk %}">
+                <p>[{{ article.pk }}] {{ article.title }}</p>
+                <p>가격 : {{ article.price | intcomma }}</p>
+              </a>
+            </h5>
+            <p class="card-text">{{ article.content }}</p>
+            <form action="{% url 'articles:like' article.pk %}" method="POST">
+              {% csrf_token %}
+              {% if request.user in article.like_users.all %}
+                <input type="submit" value="❤️">
+              {% else %}
+                <input type="submit" value="🖤">
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 
 {% endblock content %}
