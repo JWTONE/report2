@@ -28,12 +28,3 @@ def follow(request, user_id):
                 member.followers.add(request.user)
         return redirect("users:profile", member.username)
     return redirect("accounts:login")
-
-@login_required
-def view_profile(request, username):
-    user_profile = get_object_or_404(get_user_model(), username=username)
-    context = {
-        'user_profile': user_profile
-    }
-    
-    return render(request, 'user/profile.html', context)

@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-# 모델, 폼에 추가해서
+
 
 class Article(models.Model):
     title = models.CharField(max_length=50)
