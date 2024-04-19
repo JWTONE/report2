@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block content %}
 <h2>{{ member.username }}님의 프로필 </h2>
@@ -23,14 +24,77 @@
 </form>
 {% endif %}
 
-<h2>찜한 물건 목록</h2>
-<ul>
-    {% for article in liked_articles %}
-        <li>{{ article.title }}</li>
-    {% empty %}
-        <li>찜한 물건이 없습니다.</li>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>찜한 상품 목록</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4" >
+    {% for article in article %}
+      <div class="col">
+        <div class="card" >
+          {% if article.image %}
+            <img src="{{ article.image.url }}" class="card-img-top" style="width: 400px; height: 200px">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'articles:article_detail' article.pk %}">
+                <p>[{{ article.pk }}] {{ article.title }}</p>
+                <p>가격 : {{ article.price | intcomma }}</p>
+              </a>
+            </h5>
+            <p class="card-text">{{ article.content }}</p>
+            <form action="{% url 'articles:like' article.pk %}" method="POST">
+              {% csrf_token %}
+              {% if request.user in article.like_users.all %}
+                <input type="submit" value="❤️">
+              {% else %}
+                <input type="submit" value="🖤">
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
     {% endfor %}
-</ul>
+  </div>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<h2>내가 등록한 상품</h2>
+<div class="row row-cols-1 row-cols-md-3 g-4" >
+    {% for article in my_article %}
+      <div class="col">
+        <div class="card" >
+          {% if article.image %}
+            <img src="{{ article.image.url }}" class="card-img-top" style="width: 400px; height: 200px">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'articles:article_detail' article.pk %}">
+                <p>[{{ article.pk }}] {{ article.title }}</p>
+                <p>가격 : {{ article.price | intcomma }}</p>
+              </a>
+            </h5>
+            <p class="card-text">{{ article.content }}</p>
+            <form action="{% url 'articles:like' article.pk %}" method="POST">
+              {% csrf_token %}
+              {% if request.user in article.like_users.all %}
+                <input type="submit" value="❤️">
+              {% else %}
+                <input type="submit" value="🖤">
+              {% endif %}
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 
 <a href="/index/">홈으로 돌아가기</a>
 
