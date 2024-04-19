@@ -8,6 +8,7 @@
     {% endif %}
 
 <p>팔로워 수: {{ member.followers.count }}</p>
+<p>팔로잉 수: {{ member.followings.count }}</p>
 <p>가입일: {{ member.date_joined }}</p>
 <p>최근 로그인 이력: {{ member.last_login }}</p>
 
@@ -22,15 +23,14 @@
 </form>
 {% endif %}
 
-<div>
-    <h2>cart</h2>
-
-    <ul>
-        {% for item in request.user.cart_items.all %}
-            <li>{{ item.product.name }}</li>
-        {% endfor %}
-    </ul>
-</div>
+<h2>찜한 물건 목록</h2>
+<ul>
+    {% for article in liked_articles %}
+        <li>{{ article.title }}</li>
+    {% empty %}
+        <li>찜한 물건이 없습니다.</li>
+    {% endfor %}
+</ul>
 
 <a href="/index/">홈으로 돌아가기</a>
 
