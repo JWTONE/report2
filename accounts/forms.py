@@ -2,11 +2,16 @@ from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 
-
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = get_user_model()
-        fields = UserCreationForm.Meta.fields + ()
+        fields = [
+            "username",
+            "password1",
+            "password2",
+            "email",
+            "profile_image",
+        ]
 
 
 class CustomUserChangeForm(UserChangeForm):
@@ -17,6 +22,7 @@ class CustomUserChangeForm(UserChangeForm):
             "first_name",
             "last_name",
             "email",
+            "profile_image",
         ]
 
     def __init__(self, *args, **kwargs):
@@ -27,3 +33,4 @@ class CustomUserChangeForm(UserChangeForm):
                 "You can change the password " '<a href="{}">here</a>.'
             ).format(f"{reverse('accounts:change_password')}")
             self.fields["password"].help_text = password_help_text
+            

@@ -6,7 +6,7 @@
 
 <form action="{% url 'articles:create' %}" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
-    <div style="display: flex; flex-direction: column;"> <!-- 요소들을 세로 방향으로 배치하기 위한 flex 컨테이너 -->
+    <div style="display: flex; flex-direction: column;">
         <br>
         <label for="id_title">제목:</label>
         <input type="text" name="title" id="id_title" size="50">

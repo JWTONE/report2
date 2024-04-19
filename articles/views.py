@@ -29,7 +29,6 @@ def article_detail(request, pk):
 @login_required
 def create(request):
     if request.method == "POST":
-        print("create_post")
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             article = form.save(commit=False)

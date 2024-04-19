@@ -6,3 +6,4 @@ class User(AbstractUser):
     followings = models.ManyToManyField(
         "self", related_name="followers", symmetrical=False
     )
+    profile_image = models.ImageField(upload_to='profile_images/', blank=True, null=True)

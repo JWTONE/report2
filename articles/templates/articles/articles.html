@@ -13,13 +13,16 @@
       <a href="{% url 'accounts:login' %}">로그인하고 글 작성하기</a>
     {% endif %}
   </div>
-  
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+  <br>
+  <br>
+  <br>
+  <br>
+  <div class="row row-cols-1 row-cols-md-3 g-4" >
     {% for article in articles %}
       <div class="col">
-        <div class="card">
+        <div class="card" >
           {% if article.image %}
-            <img src="{{ article.image.url }}" class="card-img-top fixed-size">
+            <img src="{{ article.image.url }}" class="card-img-top" style="width: 400px; height: 200px">
           {% endif %}
           <div class="card-body">
             <h5 class="card-title">

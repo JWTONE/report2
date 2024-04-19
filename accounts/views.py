@@ -6,7 +6,6 @@ from django.contrib.auth.forms import (
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.views.decorators.http import require_POST, require_http_methods
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import update_session_auth_hash
 from .forms import CustomUserChangeForm, CustomUserCreationForm
 
@@ -37,7 +36,8 @@ def logout(request):
 @require_http_methods(["GET", "POST"])
 def signup(request):
     if request.method == "POST":
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
+        print(request.FILES)
         if form.is_valid():
             user = form.save()
             auth_login(request, user)
@@ -80,3 +80,4 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
     context = {"form": form}
     return render(request, "accounts/change_password.html", context)
+
