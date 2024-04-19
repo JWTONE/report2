@@ -27,10 +27,11 @@
 ![alt text](image-3.png)
 
 - 좋아하는 상품 찜 기능
-(구현예정)
-
+![alt text](image-9.png)
 
 - Follow 기능
+
+![alt text](image-10.png)
 
     1.Follow가 몇명인지 확인 가능한 기능
     2.Follow, Unfollow 기능
