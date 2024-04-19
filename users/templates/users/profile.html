@@ -1,26 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>{{ member.username }}의 프로필 페이지</h1>
+<h2>{{ member.username }}님의 프로필 </h2>
 
-    <div>
-        <h2>username : {{ member.username }}</h2>
+<p>팔로워 수: {{ member.followers.count }}</p>
+<p>가입일: {{ member.date_joined }}</p>
+<p>최근 로그인 이력: {{ member.last_login }}</p>
 
-        {% if request.user != member %}
-            <form action="{% url 'users:follow' member.pk %}" method="POST">
-                {% csrf_token %}
-                {% if user in member.followers.all %}
-                    <input type="submit" value="언팔로우">
-                {% else %}
-                    <input type="submit" value="팔로우">
-                {% endif %}
-            </form>
-        {% endif %}        
-    </div>
+{% if request.user != member %}
+<form action="{% url 'users:follow' member.pk %}" method="POST">
+    {% csrf_token %}
+    {% if request.user in member.followers.all %}
+    <input type="submit" value="언팔로우">
+    {% else %}
+    <input type="submit" value="팔로우">
+    {% endif %}
+</form>
+{% endif %}
 
-    <a href="/index/">홈으로 돌아가기</a>
+<div>
+    <h2>cart</h2>
+
+    <ul>
+        {% for item in request.user.cart_items.all %}
+            <li>{{ item.product.name }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+<a href="/index/">홈으로 돌아가기</a>
 
 {% endblock content %}
-
-
-
