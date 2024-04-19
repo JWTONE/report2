@@ -8,11 +8,15 @@ from django.contrib.auth.decorators import login_required
 def users(request):
     return render(request, "users/users.html")
 
-
+@login_required
 def profile(request, username):
     member = get_object_or_404(get_user_model(), username=username)
+    article = member.like_articles.all()
+    my_article = member.articles.all()
     context = {
         "member": member,
+        "article": article,
+        "my_article": my_article,
     }
     return render(request, "users/profile.html", context)
 
@@ -28,3 +32,5 @@ def follow(request, user_id):
                 member.followers.add(request.user)
         return redirect("users:profile", member.username)
     return redirect("accounts:login")
+
+
