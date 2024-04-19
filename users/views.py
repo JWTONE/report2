@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 
 
 def users(request):
@@ -27,3 +28,12 @@ def follow(request, user_id):
                 member.followers.add(request.user)
         return redirect("users:profile", member.username)
     return redirect("accounts:login")
+
+@login_required
+def view_profile(request, username):
+    user_profile = get_object_or_404(get_user_model(), username=username)
+    context = {
+        'user_profile': user_profile
+    }
+    
+    return render(request, 'user/profile.html', context)

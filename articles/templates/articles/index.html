@@ -1,8 +1,16 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<h1>INDEX PAGE</h1>
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1 style="text-align: center;">Spartar Market</h1>
 
-<ul>
-  <li><a href="{% url 'articles:articles' %}">글목록</a></li>
-</ul>
+  <div class="background-image" id="market">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <img class="market" src="{% static 'articles/우리는 삽니다 좋은 장비를.png' %}">
+
+  </div>
 
 {% endblock content %}
