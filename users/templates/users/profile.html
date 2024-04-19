@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 {% load humanize %}
-
+{% load static  %}
 {% block content %}
 <h2>{{ member.username }}님의 프로필 </h2>
 
 {% if member.profile_image %}
         <img src="{{ member.profile_image.url }}" style="width: 500px; height: 500px;">
+    {% else %}
+        <img src="{% static 'articles\user.png' %}" style="width: 500px; height: 500px;">
     {% endif %}
 
 <p>팔로워 수: {{ member.followers.count }}</p>
